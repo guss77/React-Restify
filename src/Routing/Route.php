@@ -145,6 +145,8 @@ class Route extends EventEmitter
                 if ($dataResult !== null) {
                     if (isset($headers['Content-Type']) and $headers['Content-Type'] == 'application/json') {
                         $data = json_decode($dataResult, true);
+                        if ($data === NULL) // fallback to set raw data - TODO: figure out how to report errors in parsing
+                            $data = [ 'RAW_JSON_DATA' => $dataResult ];
                     } else {
                         parse_str($dataResult, $data);
                     }
