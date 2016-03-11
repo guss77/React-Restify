@@ -141,9 +141,13 @@ class Route extends EventEmitter
             });
 
             //Wait request end to launch route
-            $request->httpRequest->on('end', function() use ($request, $response, $next, &$dataResult) {
+            $request->httpRequest->on('end', function() use ($request, $response, $headers, $next, &$dataResult) {
                 if ($dataResult !== null) {
-                    parse_str($dataResult, $data);
+                    if (isset($headers['Content-Type']) and $headers['Content-Type'] == 'application/json') {
+                        $data = json_decode($dataResult);
+                    } else {
+                        parse_str($dataResult, $data);
+                    }
                     $request->setData($data);
                 }
 
