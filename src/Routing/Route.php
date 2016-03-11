@@ -144,7 +144,7 @@ class Route extends EventEmitter
             $request->httpRequest->on('end', function() use ($request, $response, $headers, $next, &$dataResult) {
                 if ($dataResult !== null) {
                     if (isset($headers['Content-Type']) and $headers['Content-Type'] == 'application/json') {
-                        $data = json_decode($dataResult);
+                        $data = json_decode($dataResult, true);
                     } else {
                         parse_str($dataResult, $data);
                     }
