@@ -9,5 +9,9 @@ $server->get('/hello/{name}', function ($request, $response, $next) {
     $next();
 });
 
-$runner = new CapMousse\ReactRestify\Runner($server);
-$runner->listen("1337");
+$server->get('/hello/{name}', function ($request, $response) {
+    $response->write("\nWe hope you are well !");
+    $response->end();
+});
+
+$server->listen(1337);

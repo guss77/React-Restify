@@ -7,7 +7,7 @@ class EventEmitter extends \Evenement\EventEmitter
     /**
      * @var array
      */
-    protected $anyListeners = array();
+    protected $anyListeners = [];
 
     /**
      * Listen all event
@@ -16,7 +16,7 @@ class EventEmitter extends \Evenement\EventEmitter
      *
      * @return void
      */
-    public function onAny($listener)
+    public function onAny(callable $listener)
     {
         $this->anyListeners[] = $listener;
     }
@@ -28,7 +28,7 @@ class EventEmitter extends \Evenement\EventEmitter
      *
      * @return Void
      */
-    public function offAny($listener)
+    public function offAny(callable $listener)
     {
         if (false !== $index = array_search($listener, $this->anyListeners, true)) {
             unset($this->anyListeners[$index]);
@@ -43,7 +43,7 @@ class EventEmitter extends \Evenement\EventEmitter
      *
      * @return Void
      */
-    public function emit($event, array $arguments = array())
+    public function emit($event, array $arguments = [])
     {
         foreach ($this->anyListeners as $listener) {
             call_user_func_array($listener, [$event , $arguments]);
